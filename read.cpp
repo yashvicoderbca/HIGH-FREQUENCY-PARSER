@@ -10,7 +10,7 @@
 #include <iostream>//required for standard input/output stream operations(eg cout,end)
 #include<fstream> //required for handling file input/output stream pipelines (eg, ifstream, ofstream)
 #include<string>// required for utilization the core c++ string data types and manipulation mechanics
-
+#include<sstream>//required for stringstream processing to enable advanced row-splitting and tokenization
 using namespace std;
 //========================================================================================
 //PART 1: HIGH-PERFORMANCE FILE LOADING ENGINE
