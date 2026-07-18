@@ -7,9 +7,10 @@
 *TECHNOLOGY: C++, file output stream, execution trigger
 *======================================================================
 */
-#include<iostream>
-#include<fstream>
-#include<string>
+#include<iostream>// required for standard input/output stream operations (eg,cout,end)
+#include<fstream>// required for helding file input/output stream pipelines(eg, ifstream, ofstream)
+#include<string>//required for utilizing the core c++ string data types and manipulation mechanics
+#include<sstream>//required for stringstream processing to enable advanced row-splitting and tokenization
 
 // important: connection read.cpp to main.cpp so we can use highfrequencyparser
 #include "read.cpp"
@@ -38,8 +39,14 @@ int main(){
     create_dummy_csv();
     //instantiate the custom parser object in raw (defined in read.cpp)
     highfrequencyparser parser;
-    // trigger the file loading engine to verify the path before allocation varibles 
-    parser.load_file("test_data.csv");
+    // execute part 1 pipeline to check file path and connecting layouts
+    bool is_pipeline_ready = parser.load_file("test_data.csv");
+    // conditional routing execution path - trigger part 2 only if connection passes
+    if(is_pipeline_ready){
+        parser.parse_and_tokenize("test_data.csv");
+    } else{
+        cout<<"[CRITICAL FAILURE]: Aborting parasing engine due to pipeline setup failure"<<endl;
+    }
     cout<<endl;
     return 0;
 }
