@@ -1,16 +1,16 @@
 /** 
 *======================================================================
-* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1)
+* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3)
 *======================================================================
 *FILE: main.cpp
 *ROLE: ENTRY POINT, TEST DATA GENERATION AND FLOW CONTROLLER 
 *TECHNOLOGY: C++, file output stream, execution trigger
 *======================================================================
 */
-#include<iostream>// required for standard input/output stream operations (eg,cout,end)
-#include<fstream>// required for helding file input/output stream pipelines(eg, ifstream, ofstream)
-#include<string>//required for utilizing the core c++ string data types and manipulation mechanics
-#include<sstream>//required for stringstream processing to enable advanced row-splitting and tokenization
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<sstream>
 
 // important: connection read.cpp to main.cpp so we can use highfrequencyparser
 #include "read.cpp"
@@ -43,9 +43,12 @@ int main(){
     bool is_pipeline_ready = parser.load_file("test_data.csv");
     // conditional routing execution path - trigger part 2 only if connection passes
     if(is_pipeline_ready){
+        // step 2: parse raw textual streams and map objects into structures
         parser.parse_and_tokenize("test_data.csv");
+        // step 3: PART 3 NEW: CALL THE PRINT ENGINE TO PRINT INTERNAL STRUCTURAL STORAGE MEMORY MAPS
+        parser.display_database();
     } else{
-        cout<<"[CRITICAL FAILURE]: Aborting parasing engine due to pipeline setup failure"<<endl;
+        cout<<"[CRITICAL FAILURE]: aborting parsing engine "<<endl;
     }
     cout<<endl;
     return 0;
