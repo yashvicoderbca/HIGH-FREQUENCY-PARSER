@@ -151,13 +151,13 @@ class highfrequencyparser {
               // iterate starting from second record (index 1) to compare salaries
               for( int i= 1; i<active_record_count; i++){
                   //otherwise max_index if the larger salary value is encountered
-                  if(parsed_database[i].salary> parased_database[max_index].salary){
+                  if(parsed_database[i].salary> parsed_database[max_index].salary){
                       max_index = i;
                   }
               }
                   // print the highest salary record details mapped to the maximum index
-                  cout<<"HIGHEST SALARY RECORD:"<<parsed_database[max_index].name
-                   cout<<"WITH:"<< parsed_database[max_index].salary
+                  cout<<"HIGHEST SALARY RECORD:"<<parsed_database[max_index].name;
+                   cout<<"WITH:"<< parsed_database[max_index].salary;
                    cout<<"DEPT:"<< parsed_database[max_index].department<<")"<<endl;
               }
            /**
@@ -171,12 +171,12 @@ class highfrequencyparser {
                 // iterate through the entire dataset to find the all the string matches
                 for( int i=0; i<active_record_count; i++){
                     // checks the current record's department alligns with the target query
-                    if( parsed_database[i].departemnt == target_dept){
+                    if( parsed_database[i].department == target_dept){
                         match_count++;
                         // display the specific details of the matched record
                         cout<<"["<<match_count<<"] ID:"<<parsed_database[i].id
                               <<"| NAME:"<< parsed_database[i].name
-                             <<"| SALARY: << parsed_database[i].salary<<endl;
+                             <<"| SALARY:" << parsed_database[i].salary<<endl;
                     }
                 }
                 // output final evalution logic based on the match counter state 
