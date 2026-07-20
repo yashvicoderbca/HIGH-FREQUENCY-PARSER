@@ -47,9 +47,13 @@ int main(){
         parser.parse_and_tokenize("test_data.csv");
         // step 3: PART 3 NEW: CALL THE PRINT ENGINE TO PRINT INTERNAL STRUCTURAL STORAGE MEMORY MAPS
         parser.display_database();
-    } else{
-        cout<<"[CRITICAL FAILURE]: aborting parsing engine "<<endl;
-    }
+        // STEP 4:PART 4 NEW: TRIGGER QUERY AND ANALYTICS ENGINE OPERATIONS
+        parser.search_by_id(2);// SEARCH FOR RAHUL (ID 2)
+        parser.find_highest_salary(); // FIND WHO GETS HIGHEST PAY
+        parser.filter_by_department("HR") // FILTER EMPLOYEE IN HR
+            } else{
+        cout<<"[CRITICAL FAILURE]: ABORTING PARSING ENGINE" <<endl;
+            }
     cout<<endl;
     return 0;
 }
