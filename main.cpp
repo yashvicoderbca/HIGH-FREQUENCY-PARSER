@@ -1,6 +1,6 @@
 /** 
 *======================================================================
-* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3)
+* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4)
 *======================================================================
 *FILE: main.cpp
 *ROLE: ENTRY POINT, TEST DATA GENERATION AND FLOW CONTROLLER 
@@ -50,7 +50,7 @@ int main(){
         // STEP 4:PART 4 NEW: TRIGGER QUERY AND ANALYTICS ENGINE OPERATIONS
         parser.search_by_id(2);// SEARCH FOR RAHUL (ID 2)
         parser.find_highest_salary(); // FIND WHO GETS HIGHEST PAY
-        parser.filter_by_department("HR") // FILTER EMPLOYEE IN HR
+        parser.filter_by_department("HR"); // FILTER EMPLOYEE IN HR
             } else{
         cout<<"[CRITICAL FAILURE]: ABORTING PARSING ENGINE" <<endl;
             }
