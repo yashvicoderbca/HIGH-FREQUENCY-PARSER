@@ -1,6 +1,6 @@
 /** 
 *=======================================================================================
-* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3)
+* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4)
 *=======================================================================================
 *FILE: read.cpp
 *ROLE: CORE PARSING LOGIC AND VALIDATION ENGINE
@@ -109,5 +109,83 @@ class highfrequencyparser {
             }
             cout<<"====================================================="<<endl;
         }
+        //===========================================================================
+        // PART 4 NEW: QUERY AND ANALYTICS ENGINE
+        //============================================================================
+        /**
+        * @brief part 4 new:searches for the employee record using their unique id.
+        * @param target_id ID to search for in RAM database
+        */
+        void search_by_id(int target_id) {
+            cout<<"\n[QUERY ENGINE:SEARCH BY ID ="<<target_id<<"]"<<endl;
+            // flag to track wherther the target  ID was found during iteration
+            bool found= false;
+            // iteration through all active records in the database
+            for( int i= 0; i<active_record_count; i++){
+                //  check if the current record's id matches the target 
+                if( parsed_database[i].id==target_id){
+                    cout<<"[MATCH FOUND]: ID:"<<parsed_database[i].id
+                        <<"|NAME: "<<parsed_database[i].name
+                         <<"|SALARY: "<<parsed_database[i].salary
+                         <<"|DEPT: "<<parsed_database[i].department<<endl;
+                       found=true;
+                        break;//stop the loop execution immediately once a match is confirmed
+                }
+            }
+            if(!found) {
+                cout<<"[NO MATCH]: RECORD WITH ID"<<target_id<<"was not found"<<endl;
+            }
+        }
+          /** 
+          * @brief PART 4 NEW: FINDS AND DISPLAY THE EMPLOYEE WITH HIGHEST SALARY.
+          */
+          void find_highest_salary(){
+              cout<<"\n [ANALYTICS ENGINE: FIND HIGHEST SALARY]"<<endl;
+              // guard clause: enshure the database is not empty to prevent errors
+              if( active_record_count==0){
+                  cout<<"[ERROR]: DATABASE IS EMPTY"<<endl; 
+                  return;
+              }
+              // initialize the first record as a baseline maximum
+              int max_index=0;
+              // iterate starting from second record (index 1) to compare salaries
+              for( int i= 1; i<active_record_count; i++){
+                  //otherwise max_index if the larger salary value is encountered
+                  if(parsed_database[i].salary> parased_database[max_index].salary){
+                      max_index = i;
+                  }
+              }
+                  // print the highest salary record details mapped to the maximum index
+                  cout<<"HIGHEST SALARY RECORD:"<<parsed_database[max_index].name
+                   cout<<"WITH:"<< parsed_database[max_index].salary
+                   cout<<"DEPT:"<< parsed_database[max_index].department<<")"<<endl;
+              }
+           /**
+           *  @brief PART 4 NEW: filters and lists all the employee belonging to a specific department 
+           * @param target_dept the exact department string name to filter the database by.
+           */
+            void filter_by_department(const string& target_dept){
+                cout<<"\n [FILTER ENGINE: EMPLOYEES IN DEPARTMENT='"<<target_dept<<"']"<<endl;
+                // counter variable to tally the number of matching records found 
+                int match_count = 0;
+                // iterate through the entire dataset to find the all the string matches
+                for( int i=0; i<active_record_count; i++){
+                    // checks the current record's department alligns with the target query
+                    if( parsed_database[i].departemnt == target_dept){
+                        match_count++;
+                        // display the specific details of the matched record
+                        cout<<"["<<match_count<<"] ID:"<<parsed_database[i].id
+                              <<"| NAME:"<< parsed_database[i].name
+                             <<"| SALARY: << parsed_database[i].salary<<endl;
+                    }
+                }
+                // output final evalution logic based on the match counter state 
+                if(match_count==0){
+                    cout<<"[NO MATCH]: NO EMPLOYEES FOUND IN "<<target_dept<<"'department"<<endl;
+                } else{
+                    cout<<"-> total" <<match_count<<"employee(s) found in"<<target_dept<<"."<<endl;
+                }
+                    
+            }
     };
         
