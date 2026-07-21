@@ -20,10 +20,10 @@ void create_dummy_csv(){
     ofstream out("test.data.csv");
     out<< "ID, NAME, SALARY, DEPARTMENT\n";
     out<< "1, amit, 45000, IT\n";// ROW 1: VALID
-    out<< "2, rahul, INVALIED_SALARY, HR\n";ROW 2: PART 5 CORRUPT (NON- NUMERIC SALARY)
-    out<< "3, priya, 55000, FINANCE\n";ROW 3: VALID
-    out<< "4, karan, 70000\n";ROW 4: PART 5 IMCOMPLETE ( MISSING DEPT)
-    out<< "5, sneha, 80000, MARKETING\n";ROW 5: VALID
+    out<< "2, rahul, INVALIED_SALARY, HR\n";//ROW 2: PART 5 CORRUPT (NON- NUMERIC SALARY)
+    out<< "3, priya, 55000, FINANCE\n";//ROW 3: VALID
+    out<< "4, karan, 70000\n";//ROW 4: PART 5 IMCOMPLETE ( MISSING DEPT)
+    out<< "5, sneha, 80000, MARKETING\n";//ROW 5: VALID
     out.close();
 }
 //=====================================================================
