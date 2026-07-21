@@ -1,9 +1,9 @@
 /** 
 *======================================================================
-* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4)
+* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4, PART 5)
 *======================================================================
 *FILE: main.cpp
-*ROLE: ENTRY POINT, TEST DATA GENERATION AND FLOW CONTROLLER 
+*ROLE: OPERATIONAL CONTROLLER, MOCK GENERATION AND PIPELINE TRIGGER
 *TECHNOLOGY: C++, file output stream, execution trigger
 *======================================================================
 */
@@ -15,19 +15,15 @@
 // important: connection read.cpp to main.cpp so we can use highfrequencyparser
 #include "read.cpp"
 using namespace std;
-
-//========================================================================
-// HELP LOGIC: DYNAMIC TEST DATA GENERATOR
-//========================================================================
+// PART 5 UPDATED: GENERATING dummy CSV with valied, corrupt, and incomplete rows
 void create_dummy_csv(){
-    //open an output file stream (ofstream) to create the file on the hard disk
-    ofstream out("test_data.csv");
-    // writing sample rows into the csv file 
-    out<<"ID,NAME,SALERY,DEPARTMENT\n";
-    out<<"1,AMIT,45000,IT\n";
-    out<<"2,RAHUL,60000,HR\n";
-    out<<"3,PRIYA,55000,FINANCE\n";
-    // SAFELY CLOSE THE OUTPUT CONNECTION TO RELEASE SYSTEM RESOURCES
+    ofstream out("test.data.csv");
+    out<< "ID, NAME, SALARY, DEPARTMENT\n";
+    out<< "1, amit, 45000, IT\n";// ROW 1: VALID
+    out<< "2, rahul, INVALIED_SALARY, HR\n";ROW 2: PART 5 CORRUPT (NON- NUMERIC SALARY)
+    out<< "3, priya, 55000, FINANCE\n";ROW 3: VALID
+    out<< "4, karan, 70000\n";ROW 4: PART 5 IMCOMPLETE ( MISSING DEPT)
+    out<< "5, sneha, 80000, MARKETING\n";ROW 5: VALID
     out.close();
 }
 //=====================================================================
@@ -48,9 +44,9 @@ int main(){
         // step 3: PART 3 NEW: CALL THE PRINT ENGINE TO PRINT INTERNAL STRUCTURAL STORAGE MEMORY MAPS
         parser.display_database();
         // STEP 4:PART 4 NEW: TRIGGER QUERY AND ANALYTICS ENGINE OPERATIONS
-        parser.search_by_id(2);// SEARCH FOR RAHUL (ID 2)
+        parser.search_by_id(3);// SEARCH FOR RAHUL (ID 2)
         parser.find_highest_salary(); // FIND WHO GETS HIGHEST PAY
-        parser.filter_by_department("HR"); // FILTER EMPLOYEE IN HR
+        parser.filter_by_department("MARKETING"); // FILTER EMPLOYEE IN HR
             } else{
         cout<<"[CRITICAL FAILURE]: ABORTING PARSING ENGINE" <<endl;
             }
