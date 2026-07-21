@@ -1,22 +1,26 @@
 /** 
 *=======================================================================================
-* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4)
+* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4, PART 5)
 *=======================================================================================
 *FILE: read.cpp
-*ROLE: CORE PARSING LOGIC AND VALIDATION ENGINE
-*TECHNOLOGY: C++,FILE I/O, RESOURSE ALLOCATION, GUARD CLAUSE LOGIC
+*ROLE: CORE LOGIC, PARSING, STRUCT MAPPING, QUERY ENGINE AND ERROR HANDLING
+*TECHNOLOGY: C++,FILE I/O, STRING STREAMS, EXCEPTION HANDLING (TRY-CATCH)
 *======================================================================================
 */
 #include <iostream>
 #include<fstream>
 #include<string>
 #include<sstream>
+#include <stdexcept>// PART 5 NEW: REQUIRED FOR EXCEPTION HANDLING TYPES
 
 using namespace std;
+// MAXUMUM CAPACITY LIMIT DEFINED FOR RAM DATABASE BUFFER
+const int MAX_CAPACITY = 100;
 
 //=========================================================================================
 //PART 3 NEW: CUSTOM DATA STRUCTURE FOR OBJECT MAPPING 
 //=========================================================================================
+
 struct Employee{
     int id;
     string name;
@@ -25,9 +29,9 @@ struct Employee{
 };
 class highfrequencyparser {
     public:
-    // PART 3 NEW: FIXED CAPACITY ARRAY DATABASE BUFFER TO STORE MAPPED DATA ROWS
-    Employee parsed_database[100];
-    int active_record_count = 0; // tracks the number of loaded objects in ram
+    Employee parsed_database[MAX_CAPACITY];
+    int active_record_count=0;// tracks the number of loaded objects in ram
+
     //========================================================================================
 //PART 1: HIGH-PERFORMANCE FILE LOADING ENGINE
 //========================================================================================
@@ -51,7 +55,7 @@ class highfrequencyparser {
 
 
     /** 
-    * @brief PART 2 AND 3: EXTRACTS ROWS, TOKENIZES STRINGS, AND MAPS INTO THE RAM DATABASE.
+    * @brief PART 2, 3 and 5: extarcts rows, tokenizes, validates and maps into ram with exception handling.
     */
     void parse_and_tokenize(const string& filename){
         // step 1: open stream in read mode to parse data rows
@@ -71,11 +75,18 @@ class highfrequencyparser {
          //sequential row extraction loop
          while(getline(file,current_row)){
             row_counter++;
+            // PART 5 NEW: CHECKS ATTAY CAPACITY LIMIT BEFORE PARSING TO PREVENT BUFFER OVERFLOW
+            if(active_record_count>=MAX_CAPACITY){
+                cout<<"[WARNING][PART 5]:database capacity limit reached skipping remaining rows"<<endl;
+                break;
+            }
             stringstream data_stream(current_row);
             string raw_id,raw_name,raw_salary,raw_dept;
             //PART 3 NEW:POSITIONAL DATA EXTRACTION FROM THE STREAM USING COMMA SEPERATION
             if(getline(data_stream,raw_id,',')&& getline(data_stream,raw_name,',')&& getline(data_stream,raw_salary,',')&&getline(data_stream,raw_dept,',')){
-                //PART 3 NEW: OBJECT INSTANTIATION AND STRING TO INTEGER DATA CASTING (stio)
+                // PART 5 NEW: EXCEPTION HANDLING (try-catch) to guard against corrupted data TYPES
+                try{
+                    //PART 3 NEW: OBJECT INSTANTIATION AND STRING TO INTEGER DATA CASTING (stio)
                 Employee temp_emp;
                 temp_emp.id = stoi(raw_id); // coverting string id to integer
                 temp_emp.name = raw_name;
@@ -86,6 +97,17 @@ class highfrequencyparser {
                 active_record_count++;
                 //logging current state telemetry
                 cout<<"[PARSED ROW #" <<row_counter<<"]: mapped"<<temp_emp.name<<"securely into ram memory matrix location index["<<active_record_count-1<<"]"<<endl;
+            } catch (const invalid_argument& e){
+                // PART 5: CATCHES INVALIED DATA FORMAT (eg, non-numertic string passed to stoi)
+                cout<<"[SKIPPED BAD ROW #"<<row_counter<<"]: invalid number format in row:'"<<current_row<<"'"<<endl;
+                
+         } catch (const out_of_range& e) {
+             // PART 5 NEW: CATCHES NUMERIC OVERFLOW VALUES
+             cout<<"[SKIPPED BAD ROW # "<<row_counter<<"]: numberic value out of the range in row:'"<< current_row<<"'"<<endl;
+         }
+            } else{
+                // part 5: handles malformed rows with missing comma separators or attributes
+                cout<<"[SKIPPED BAD ROW #"<<row_counter<<"]: incomplete attributes count in row:'"<<current_row<<"'"<<endl;
             }
          }
          cout<<"==========================================================================="<<endl;
