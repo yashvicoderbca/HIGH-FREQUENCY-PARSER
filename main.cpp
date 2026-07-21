@@ -17,7 +17,7 @@
 using namespace std;
 // PART 5 UPDATED: GENERATING dummy CSV with valied, corrupt, and incomplete rows
 void create_dummy_csv(){
-    ofstream out("test.data.csv");
+    ofstream out("test_data.csv");
     out<< "ID, NAME, SALARY, DEPARTMENT\n";
     out<< "1, amit, 45000, IT\n";// ROW 1: VALID
     out<< "2, rahul, INVALIED_SALARY, HR\n";//ROW 2: PART 5 CORRUPT (NON- NUMERIC SALARY)
