@@ -1,10 +1,10 @@
 /** 
 *======================================================================
-* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4, PART 5)
+* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4, PART 5, PART 6)
 *======================================================================
 *FILE: main.cpp
-*ROLE: OPERATIONAL CONTROLLER, MOCK GENERATION AND PIPELINE TRIGGER
-*TECHNOLOGY: C++, file output stream, execution trigger
+*ROLE: OPERATIONAL CONTROLLER, DATASET GENERATION AND INTERACTIVE DASHBOARD CLI ROUTER
+*TECHNOLOGY: C++, PROCESS CONTROL LOOPS, SWITCH-CASE DISPATCH ENGINE
 *======================================================================
 */
 #include<iostream>
@@ -37,19 +37,77 @@ int main(){
     highfrequencyparser parser;
     // execute part 1 pipeline to check file path and connecting layouts
     bool is_pipeline_ready = parser.load_file("test_data.csv");
-    // conditional routing execution path - trigger part 2 only if connection passes
-    if(is_pipeline_ready){
-        // step 2: parse raw textual streams and map objects into structures
-        parser.parse_and_tokenize("test_data.csv");
-        // step 3: PART 3 NEW: CALL THE PRINT ENGINE TO PRINT INTERNAL STRUCTURAL STORAGE MEMORY MAPS
-        parser.display_database();
-        // STEP 4:PART 4 NEW: TRIGGER QUERY AND ANALYTICS ENGINE OPERATIONS
-        parser.search_by_id(3);// SEARCH FOR RAHUL (ID 2)
-        parser.find_highest_salary(); // FIND WHO GETS HIGHEST PAY
-        parser.filter_by_department("MARKETING"); // FILTER EMPLOYEE IN HR
-            } else{
-        cout<<"[CRITICAL FAILURE]: ABORTING PARSING ENGINE" <<endl;
+    if(!is_pipeline_ready){
+        cout<<"[CRITICAL FAILURE]: aborting parsing engine due to pipeline setup failure"<<endl;
+        return 0;
+    }
+    //step 2: parse textual streams into  RAM Structures with exception protection
+    parser.parse_and_tokenize("test_data.csv");
+    //===================================================================================
+    // PART 6: INTERATIVE DASHBOARD CLI CONTROL ENGINE 
+    //====================================================================================
+    int user_choice = 0;
+    // event loop: keeps process presistent in ram until explicit exit command
+    while(user_choice!=6){
+        cout<<"\n=================================================================="<<endl;
+        cout<<"          PARSER ENGINE DASHBOARD                                   "<<endl;
+        cout<<"\n=================================================================="<<endl;
+        cout<<"1. display complete ram matrics"<<endl;
+        cout<<"2. serach record by employee ID"<<endl;
+        cout<<"3. Analytics: find the highest salary record"<<endl;
+        cout<<"4. filter records by department "<<endl;
+        cout<<"5. system diagnostic: show parsing metrics"<<endl;
+        cout<<"6. Exit application"<<endl;
+        cout<<"----------------------------------------------------------------------"<<endl;
+        cout<<"enter the choice [1-6]:";
+        //safe input guard against invalid character enteries
+        if(!(cin>>user_choice)){
+            cout<<"\n [INPUT ERROR]: INVALID CHOICE! PLEASE ENTER A VALID NUMBER BETWEEEN 1 TO 6"<<endl;
+            cin.clear();
+            cin.ignore(10000,'\n');
+            continue;
+        }
+        //router processing requested user command via jump table
+        switch(user_choice){
+            case 1:
+            parser.display_database();
+            break;
+
+            case 2:{
+                int serach_id;
+                cout<<" enter employee ID  to serach: ";
+                if(cin>> serach_id){
+                    parser.search_by_id(serach_id);
+                } else{
+                    cout<<"[INPUT ERROR]: ID must be an integer value "<<endl;
+                    cin.clear();
+                    cin.ignore(10000,'\n');
+                }
+                break;
             }
-    cout<<endl;
+            case 3:
+            parser.find_highest_salary();
+            break;
+
+            case 4:{
+                string dept_name;
+                cout<<"\n enter department Name (eg IT, FINANCE)";
+                cin>>dept_name;
+                parser.filter_by_department(dept_name);
+                break;
+            }
+              case 5:
+              parser.show_system_diagnostics();
+              break;
+
+              case 6:
+              cout<<"\n shutting down High-Frequency data parser engine . good luck with your project"<<endl;
+              break;
+
+              default:
+              cout<<"\n [INVALID CHOICE]: OPTION"<<user_choice<< "is not recognized. pick between 1 and 6"<<endl;
+              break;
+        }
+    }
     return 0;
 }
