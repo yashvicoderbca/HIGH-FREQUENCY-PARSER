@@ -1,9 +1,9 @@
 /** 
 *=======================================================================================
-* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4, PART 5)
+* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4, PART 5, PART 6)
 *=======================================================================================
 *FILE: read.cpp
-*ROLE: CORE LOGIC, PARSING, STRUCT MAPPING, QUERY ENGINE AND ERROR HANDLING
+*ROLE: CORE ENGINE, MEMORY ALLOCATION, PARSING, QUERIES AND DIAGNOSTICS
 *TECHNOLOGY: C++,FILE I/O, STRING STREAMS, EXCEPTION HANDLING (TRY-CATCH)
 *======================================================================================
 */
@@ -209,5 +209,15 @@ class highfrequencyparser {
                 }
                     
             }
+            /** 
+            *@brief PART 6: SYSTEM DIAGNOSTIC METRICS DISPLAY INTERNAL MEMORY STATE.
+            */
+            void show_system_diagnostics(){
+                cout<<"[STSTEM DIAGNOSTIC METRICS]"<<endl;
+                cout<<"======================================"<<endl;
+                cout<<"-> valied records loaded in RAM   :"<<active_record_count<<endl;
+                cout<<"-> buffer Max capacity limit  :"<< MAX_CAPACITY<<endl;
+                cout<<"-> RAM Buffer utilization    :"<<((float)active_record_count/MAX_CAPACITY)*100<<"%"<<endl;
+                cout<<"======================================"<<endl;
+            }
     };
-        
