@@ -1,10 +1,10 @@
 /** 
 *======================================================================
-* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4, PART 5, PART 6)
+* HIGH-FREQUENCY DATA PARSER (PROJECT 2 PART 1, PART 2, PART 3, PART 4, PART 5, PART 6, PART 7)
 *======================================================================
 *FILE: main.cpp
-*ROLE: OPERATIONAL CONTROLLER, DATASET GENERATION AND INTERACTIVE DASHBOARD CLI ROUTER
-*TECHNOLOGY: C++, PROCESS CONTROL LOOPS, SWITCH-CASE DISPATCH ENGINE
+*ROLE: CONTROLLER, MOCK DATASET GENERATION & AUTO DISK SYNC SHUTDOWN 
+*TECHNOLOGY: C++, DYNAMIC CONTROL LOOPS, AUTOMATIC PERSISTENCE ROUTINES
 *======================================================================
 */
 #include<iostream>
@@ -19,11 +19,11 @@ using namespace std;
 void create_dummy_csv(){
     ofstream out("test_data.csv");
     out<< "ID, NAME, SALARY, DEPARTMENT\n";
-    out<< "1, amit, 45000, IT\n";// ROW 1: VALID
-    out<< "2, rahul, INVALIED_SALARY, HR\n";//ROW 2: PART 5 CORRUPT (NON- NUMERIC SALARY)
-    out<< "3, priya, 55000, FINANCE\n";//ROW 3: VALID
-    out<< "4, karan, 70000\n";//ROW 4: PART 5 IMCOMPLETE ( MISSING DEPT)
-    out<< "5, sneha, 80000, MARKETING\n";//ROW 5: VALID
+    out<< "1,amit,45000,IT\n";// ROW 1: VALID
+    out<< "2,rahul,INVALIED_SALARY,HR\n";//ROW 2: PART 5 CORRUPT (NON- NUMERIC SALARY)
+    out<< "3,priya,55000,FINANCE\n";//ROW 3: VALID
+    out<< "4,karan,70000\n";//ROW 4: PART 5 IMCOMPLETE ( MISSING DEPT)
+    out<< "5,sneha,80000,MARKETING\n";//ROW 5: VALID
     out.close();
 }
 //=====================================================================
@@ -44,7 +44,7 @@ int main(){
     //step 2: parse textual streams into  RAM Structures with exception protection
     parser.parse_and_tokenize("test_data.csv");
     //===================================================================================
-    // PART 6: INTERATIVE DASHBOARD CLI CONTROL ENGINE 
+    // PART 6 AND PART 7: INTERATIVE DASHBOARD WITH DISK SYNC PERSISTENCE
     //====================================================================================
     int user_choice = 0;
     // event loop: keeps process presistent in ram until explicit exit command
